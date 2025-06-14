@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediChainAI | A Pillow Gold Developers Project</title>
+
+    <!-- Icons and Fonts -->
+    <script src="https://kit.fontawesome.com/5f7f3e8e8b.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS Variables for a Thematic and Consistent Design */
+        :root {
+            --bg-dark: #0A192F;
+            --bg-light: #112240;
+            --text-primary: #E6F1FF;
+            --text-secondary: #a8b2d1;
+            --accent-color: #64FFDA;
+            --accent-glow: rgba(100, 255, 218, 0.1);
+            --card-bg: #0e2a47;
+            --border-color: #233554;
+            --shadow-color: rgba(2, 12, 27, 0.7);
+        }
+
+        /* Custom Scrollbar for a Polished Look */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-color); }
+
+        /* Global Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+            overflow-x: hidden;
+        }
+
+        /* Container & Sectioning */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
+        section { padding: 7rem 0; position: relative; }
+        section:not(.hero) { border-top: 1px solid var(--border-color); }
+        section.bg-light { background-color: var(--bg-light); }
+
+        /* Typography */
+        h1, h2, h3 { font-weight: 800; }
+        h1 { font-size: clamp(3rem, 7vw, 5.5rem); background: linear-gradient(90deg, var(--text-primary), #bdc8e8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h2 { font-size: clamp(2.2rem, 5vw, 3rem); text-align: center; margin-bottom: 1rem; }
+        .section-subtitle { text-align: center; font-size: 1.1rem; max-width: 750px; margin: 0 auto 4rem auto; color: var(--text-secondary); }
+
+        /* Header */
+        .header {
+            padding: 1.5rem 2rem;
+            background-color: rgba(10, 25, 47, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky; top: 0; z-index: 1000;
+            display: flex; justify-content: center;
+        }
+        .header-content { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1200px; }
+        .logo { font-size: 1.8rem; font-weight: 800; color: var(--accent-color); text-decoration: none; }
+        .header-credit { color: var(--text-secondary); font-size: 0.9rem; }
+
+        /* Hero Section with Particle Background */
+        .hero {
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            justify-content: center; text-align: center;
+            padding: 0 2rem;
+            position: relative;
+        }
+        #particles-js { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1; background-image: radial-gradient(ellipse 80% 80% at 50% -20%, rgba(127, 255, 212, 0.1), transparent); }
+        .hero h1 { margin-bottom: 1rem; }
+        .hero h2 { font-size: clamp(1.2rem, 4vw, 1.75rem); color: var(--text-primary); font-weight: 600; max-width: 800px; margin: 1rem auto; }
+        .hero h3 { font-size: 1rem; color: var(--accent-color); font-weight: 600; letter-spacing: 1px; }
+
+        /* Feature Cards */
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .feature-card {
+            background: var(--card-bg);
+            padding: 2.5rem 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: left;
+            position: relative; overflow: hidden;
+        }
+        .feature-card:hover { transform: translateY(-10px); box-shadow: 0 20px 30px var(--shadow-color), 0 0 20px var(--accent-glow); }
+        .feature-card::before { content: ''; position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: linear-gradient(135deg, var(--accent-glow) 0%, transparent 70%); transition: transform 0.5s ease; transform: translate(50%, -50%) rotate(45deg); }
+        .feature-card:hover::before { transform: translate(20%, -20%) rotate(45deg) scale(1.5); }
+        .feature-card i { font-size: 2.5rem; color: var(--accent-color); margin-bottom: 1rem; }
+        .feature-card h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+        .feature-card p { font-size: 1rem; color: var(--text-secondary); }
+
+        /* Manifesto Section */
+        .manifesto-layout { display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; align-items: center; }
+        .manifesto-layout .quote { font-size: 2rem; font-weight: 800; line-height: 1.3; color: var(--text-primary); border-left: 4px solid var(--accent-color); padding-left: 2rem; }
+        
+        /* Roadmap Timeline */
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; }
+        .timeline::after { content: ''; position: absolute; width: 4px; background-color: var(--border-color); top: 0; bottom: 0; left: 50%; margin-left: -2px; }
+        .timeline-item { padding: 10px 40px; position: relative; width: 50%; }
+        .timeline-item::after { content: ''; position: absolute; width: 20px; height: 20px; right: -10px; background-color: var(--bg-dark); border: 4px solid var(--accent-color); top: 25px; border-radius: 50%; z-index: 1; }
+        .timeline-item:nth-child(odd) { left: 0; }
+        .timeline-item:nth-child(even) { left: 50%; }
+        .timeline-item:nth-child(even)::after { left: -10px; }
+        .timeline-content { padding: 2rem; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--border-color); }
+        .timeline-content h3 { color: var(--accent-color); }
+
+        /* About Section */
+        .about-section { text-align: center; }
+        .about-section .logo { font-size: 2.5rem; margin-bottom: 1rem; }
+        .about-section p { max-width: 700px; margin: 1rem auto; font-size: 1.1rem; }
+        
+        /* Footer */
+        .footer { text-align: center; padding: 4rem 1rem; background: var(--bg-light); }
+        .footer p { margin: 0.5rem 0; color: var(--text-secondary); }
+        .footer strong { color: var(--text-primary); }
+
+        /* Animation & Responsive */
+        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        
+        @media (max-width: 900px) {
+            .manifesto-layout { grid-template-columns: 1fr; gap: 2rem; }
+            .timeline::after { left: 20px; }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .timeline-item:nth-child(even) { left: 0; }
+            .timeline-item::after { left: 10px; }
+        }
+        @media (max-width: 768px) {
+            body { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">MediChainAI</a>
+            <span class="header-credit">A Project by <strong>Pillow Gold Developers</strong></span>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div id="particles-js"></div>
+            <div class="container fade-in">
+                <h1>Your Data, Your Terms, <br>Our Shared Future.</h1>
+                <h2>We are building a trusted, decentralized ecosystem where individuals own their health data, AI accelerates discovery, and everyone contributes to the future of medicine.</h2>
+                <h3>Powered by Google Cloud & AI | Developed with Pride by Pillow Gold Developers</h3>
+            </div>
+        </section>
+
+        <!-- A NEW MANIFESTO FOR HEALTHCARE DATA -->
+        <section id="manifesto">
+            <div class="container fade-in">
+                <div class="manifesto-layout">
+                    <div class="quote">
+                        The system is broken. We are here to rebuild it.
+                    </div>
+                    <div>
+                        <h3>A New Manifesto for Healthcare Data</h3>
+                        <p>For too long, patient data has been a liability for hospitals, inaccessible to researchers, and completely out of the patient's control. This friction costs lives and stifles innovation. At Pillow Gold Developers, we see a different future.</p>
+                        <p>Our vision is a global, liquid, and intelligent biomedical data ecosystem built on one revolutionary principle: <strong>You Own Your Data.</strong> MediChainAI is our commitment to that future—a new paradigm where data sovereignty and programmable trust converge.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- THE PLATFORM FOR A NEW ERA -->
+        <section id="platform" class="bg-light">
+            <div class="container fade-in">
+                <h2>The Platform for a New Era</h2>
+                <p class="section-subtitle">MediChainAI empowers every participant in the healthcare journey, providing the tools to dismantle silos and build a collaborative future.</p>
+                <div class="features-grid">
+                    <div class="feature-card" style="transition-delay: 100ms;">
+                        <i class="fas fa-user-shield"></i>
+                        <h3>Take Control & Share</h3>
+                        <p>Patients contribute anonymized data on their own terms, finally taking an active, rewarded role in medical progress.</p>
+                    </div>
+                    <div class="feature-card" style="transition-delay: 200ms;">
+                        <i class="fas fa-lightbulb"></i>
+                        <h3>Unlock Insights</h3>
+                        <p>Researchers gain access to vast, diverse datasets needed to train next-generation AI for diagnostics and drug discovery.</p>
+                    </div>
+                    <div class="feature-card" style="transition-delay: 300ms;">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <h3>Create Value</h3>
+                        <p>Hospitals transform data storage liabilities into secure, ethical revenue streams by contributing to the collective knowledge pool.</p>
+                    </div>
+                    <div class="feature-card" style="transition-delay: 400ms;">
+                        <i class="fas fa-cogs"></i>
+                        <h3>Trust in AI</h3>
+                        <p>Interact with AI models whose performance and training lineage are transparently recorded and auditable on the blockchain.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- UNCOMPROMISING TECHNICAL FOUNDATION -->
+        <section id="tech">
+            <div class="container fade-in">
+                <h2>Our Uncompromising Technical Foundation</h2>
+                <p class="section-subtitle">To build the future, we use the best tools on the planet. We chose Google Cloud for its unparalleled security, scalability, and AI capabilities, ensuring our platform is both powerful and enterprise-ready.</p>
+                 <!-- Logos can be placed here in a grid, similar to the feature grid, if desired -->
+            </div>
+        </section>
+
+        <!-- THE $MCAI ECONOMIC ENGINE -->
+        <section id="token" class="bg-light">
+            <div class="container fade-in">
+                <h2>The $MCAI Economic Engine</h2>
+                <p class="section-subtitle">The <strong>$MCAI</strong> token is more than a currency; it's the fuel for our collaborative economy. It aligns incentives and ensures that value flows to those who create it.</p>
+                 <div class="features-grid">
+                    <div class="feature-card"><i class="fas fa-gift"></i><h3>Patients are Rewarded</h3><p>Earn for contributing the data that powers discovery.</p></div>
+                    <div class="feature-card"><i class="fas fa-rocket"></i><h3>Research is Fueled</h3><p>Use tokens to access datasets and computational power.</p></div>
+                    <div class="feature-card"><i class="fas fa-clinic-medical"></i><h3>Hospitals are Incentivized</h3><p>Earn for sharing unique, high-quality data assets.</p></div>
+                    <div class="feature-card"><i class="fas fa-lock"></i><h3>Ecosystem is Secured</h3><p>Stake tokens to unlock advanced features and reinforce network integrity.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- THE HORIZON AHEAD -->
+        <section id="roadmap">
+            <div class="container fade-in">
+                <h2>The Horizon Ahead</h2>
+                <p class="section-subtitle">Our mission will unfold in phases designed to systematically revolutionize healthcare. This is not just a project; it's a multi-year commitment to change.</p>
+                <div class="timeline">
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-content">
+                            <h3>Phase 1: Foundation & MVP</h3>
+                            <p>Develop the core platform, secure partner hospitals, and launch the $MCAI token economy.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-content">
+                            <h3>Phase 2: The AI Marketplace</h3>
+                            <p>Launch a decentralized exchange for validated, trusted diagnostic AI models, accessible to clinics worldwide.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-content">
+                            <h3>Phase 3: The Research DAO</h3>
+                            <p>Establish a community-governed body to fund and oversee groundbreaking research with unparalleled transparency.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-content">
+                            <h3>Phase 4: The Real-Time Network</h3>
+                            <p>Integrate with wearable and IoT devices to create a tokenized economy for real-time wellness data.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ABOUT THE ARCHITECTS -->
+        <section id="about" class="bg-light about-section">
+            <div class="container fade-in">
+                <h2>About the Architects</h2>
+                <div class="logo">Pillow Gold Developers</div>
+                <p><strong>MediChainAI</strong> is the flagship initiative of Pillow Gold Developers. We are a collective of architects, engineers, and strategists united by a single, audacious goal: to dismantle the barriers that hold back human health. We build with conviction, leveraging world-class technology to solve foundational problems. MediChainAI is our commitment to a healthier, more equitable future for all.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p><strong>MediChainAI</strong></p>
+        <p>A Proud Project by <strong>Pillow Gold Developers</strong></p>
+        <p>Built with <strong>Google Cloud Platform</strong></p>
+        <p style="margin-top: 1.5rem; font-size: 0.9rem;"><em>All trademarks are the property of their respective owners. Our vision is our own.</em></p>
+    </footer>
+
+    <!-- Particle.js and Animation Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Particle.js Configuration
+        particlesJS("particles-js", {
+            "particles": { "number": { "value": 60, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#64FFDA" }, "shape": { "type": "circle" }, "opacity": { "value": 0.5, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false } }, "size": { "value": 3, "random": true }, "line_linked": { "enable": true, "distance": 150, "color": "#233554", "opacity": 0.4, "width": 1 }, "move": { "enable": true, "speed": 1, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false } },
+            "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 4 } } },
+            "retina_detect": true
+        });
+
+        // Fade-in on Scroll Animation
+        const faders = document.querySelectorAll('.fade-in');
+        const appearOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+        const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('visible');
+                const delay_elements = entry.target.querySelectorAll('[style*="transition-delay"]');
+                delay_elements.forEach(el => el.classList.add('visible'));
+                appearOnScroll.unobserve(entry.target);
+            });
+        }, appearOptions);
+        faders.forEach(fader => appearOnScroll.observe(fader));
+    </script>
+</body>
+</html>
